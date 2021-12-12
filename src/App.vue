@@ -9,20 +9,20 @@
 <script>
 import EmptyLayout from '@/layouts/EmptyLayout'
 import MainLayout from '@/layouts/MainLayout'
+
 export default {
+  components: {
+    EmptyLayout,
+    MainLayout
+  },
+
   computed: {
     layout() {
       return (this.$route.meta.layout || 'empty') + '-layout'
-    }
+    },
   },
-  components: {
-    EmptyLayout, MainLayout
-  }
 }
 </script>
 
 <style lang="scss">
-  * {
-    margin: 0;
-  }
 </style>

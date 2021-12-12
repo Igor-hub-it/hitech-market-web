@@ -9,25 +9,25 @@ const routes = [
     path: '/',
     name: 'home',
     component: lazyView('Home'),
-    meta: {layout: 'main'}
+    meta: { layout: 'main' }
   },
   {
     path: '/busket',
     name: 'busket',
     component: lazyView('Busket'),
-    meta: {layout: 'main'}
+    meta: { layout: 'main' }
   },
   {
     path: '/shop',
     name: 'shop',
     component: lazyView('ShopSample'),
-    meta: {layout: 'main'}
+    meta: { layout: 'main' }
   },
   {
     path: '/login',
     name: 'login',
     component: lazyView('vAuth'),
-    meta: {layout: 'empty'}
+    meta: { layout: 'empty' }
   },
 ]
 
