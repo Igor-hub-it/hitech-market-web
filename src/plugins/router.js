@@ -29,6 +29,12 @@ const routes = [
     component: lazyView('vAuth'),
     meta: { layout: 'empty' }
   },
+  {
+    path: '/api/:route',
+    name: 'api',
+    component: lazyView('vApi'),
+    meta: { layout: 'empty' }
+  },
 ]
 
 const router = createRouter({

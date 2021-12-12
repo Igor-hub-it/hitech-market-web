@@ -3,7 +3,7 @@
 import axios from "axios";
 
 let config = {
-  baseURL: process.VUE_APP_API_URL || process.env.baseURL || process.env.apiUrl || "",
+  baseURL: process.env.VUE_APP_API_URL || process.env.baseURL || process.env.apiUrl || "",
   timeout: 60 * 1000, // Timeout
   withCredentials: true, // Check cross-site Access-Control
 };
