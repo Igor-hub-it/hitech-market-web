@@ -1,6 +1,5 @@
 <template>
   <div class="main-empty-layout">
-    1
     <router-view />
   </div>
 </template>

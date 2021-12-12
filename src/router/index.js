@@ -7,20 +7,26 @@ function lazyView(view) {
 const routes = [
   {
     path: '/',
-    name: 'index',
+    name: 'home',
     component: lazyView('Home'),
     meta: {layout: 'main'}
   },
   {
-    path: '/register',
-    name: 'register',
-    component: lazyView('Register'),
-    meta: {layout: 'empty'}
+    path: '/busket',
+    name: 'busket',
+    component: lazyView('Busket'),
+    meta: {layout: 'main'}
+  },
+  {
+    path: '/shop',
+    name: 'shop',
+    component: lazyView('ShopSample'),
+    meta: {layout: 'main'}
   },
   {
     path: '/login',
     name: 'login',
-    component: lazyView('Login'),
+    component: lazyView('vAuth'),
     meta: {layout: 'empty'}
   },
 ]

@@ -1,30 +1,20 @@
 <template>
   <div class="main-layout">
     <v-header />
-    <div class="navbar">
-      <div class="accessories">
-        <div class="accessories__CPU">процессор</div>
-        <div class="accessories__cooler">кулер</div>
-        <div class="accessories__MB">материнская плата</div>
-        <div class="accessories__mem">опер. память</div>
-        <div class="accessories__hdd">винчестер</div>
-        <div class="accessories__ssd">ссд</div>
-        <div class="accessories__gpu">видеопамять</div>
-        <div class="accessories__frame">корпус</div>
-        <div class="accessories__power">блок питания</div>
-      </div>
-    </div>
-
-    <main></main>
+    <v-navbar />
+    <main>
+      <router-view />
+    </main>
   </div>
 </template>
 
 <script>
 import vHeader from '@/components/vHeader.vue'
+import vNavbar from '@/components/vNavbar.vue'
 
 export default {
   components: {
-    vHeader,
+    vHeader, vNavbar,
   }
 }
 </script>

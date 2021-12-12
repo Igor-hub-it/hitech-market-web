@@ -1,15 +1,21 @@
 <template>
   <div class="header">
-    <div class="header__title">
-      <p>Магазин компьютерных<br />комплектующих</p>
-    </div>
+    <router-link :to="{ name: 'home' }">
+      <button class="header__title">
+        <p>Магазин компьютерных<br />комплектующих</p>
+      </button>
+    </router-link>
     <div class="header__content">
-      <button class="header__LK">
-        <img class="header__LK-img" src="/images/profile.png" alt="" />
-      </button>
-      <button class="header__basket">
-        <img class="header__basket-img" src="/images/basket.png" alt="" />
-      </button>
+      <router-link :to="{ name: 'login' }">
+        <button class="header__LK">
+          <img class="header__LK-img" src="/images/profile.png" alt="" />
+        </button>
+      </router-link>
+      <router-link :to="{ name: 'busket' }">
+        <button class="header__basket">
+          <img class="header__basket-img" src="/images/basket.png" alt="" />
+        </button>
+      </router-link>
     </div>
   </div>
 </template>
@@ -27,6 +33,9 @@
     border: 1.5px solid white;
     border-radius: 3px;
     padding: 5px;
+    p {
+      cursor: pointer;
+    }
   }
 
   &__LK {
@@ -41,6 +50,7 @@
     &-img {
       width: 25px;
       height: 25px;
+      cursor: pointer;
     }
   }
 
@@ -53,6 +63,7 @@
     height: 45px;
 
     &-img {
+      cursor: pointer;
       width: 25px;
       height: 25px;
     }

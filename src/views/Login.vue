@@ -1,38 +1,105 @@
 <template>
-    <form class="log-window">
-        <div class="log-window__content">
-            <span class="log-window__title">Авторизация</span>
-            <div class="fields">
-                <div class=" field">
-                    <input id="email" type="text" class="validate">
-                    <label for="email">Email</label>
+    <form @submit.prevent="submitHandler" class="window">
+        <div class="window__content">
+            <span class="window__title">Авторизация</span>
+            <div class="field">
+                <div class="field__email">
+                    <v-input v-model="email" :name="'email'">Email</v-input>
                 </div>
-                <div class="input-field">
-                    <input id="password" type="password" class="validate">
-                    <label for="password">Пароль</label>
+                <div class="field__password">
+                    <v-input v-model="password" :name="'password'" :type="'password'">Пароль</v-input>
                 </div>
             </div>
         </div>
-        <div class="submit-btn">
+        <div class="submit">
         <div>
-            <button class="submit-btn__log-in" type="submit">Войти</button>
+            <button class="submit__login" type="submit">ВХОД</button>
         </div>
 
-        <p class="submit-btn__link-log-on">
+        <p class="submit__logon">
             Нет аккаунта?
-            <a href="/register">Зарегистрироваться</a>
+            <router-link :to="{ name: 'register' }">Зарегистрироваться</router-link>
         </p>
         </div>
     </form>
 </template>
 
+<script>
+import vInput from '@/components/vInput.vue'
+export default {
+    components: {
+        vInput,
+    },
+
+    data() {
+        return {
+            email: '',
+            password: '',
+        }
+    },
+
+    methods: {
+        submitHandler() {
+            console.log(this, this.email, this.password)
+        }
+    },
+}
+</script>
+
 <style lang="scss" scoped>
-    .log-window {
+    .window {
         display: block;
         width: 400px;
         margin: 0 auto;
         background-color: rgb(249, 253, 255);
         padding: 30px;
         border-radius: 5px;
+
+        &__title {
+            display: flex;
+            justify-content: center;
+            margin: 0 0 15px 0;
+        }
+
+        .field {
+            &__email, &__password {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 20px;
+                align-items: center;
+            }
+
+            &__validate {
+                border: 1px solid rgb(71, 71, 71);
+                border-radius: 5px;
+                height: 35px;
+                width: 270px;
+            }
+
+            &__validate:focus {
+                border: 2px solid #1140b9;
+            }
+        }
+
+        .submit {
+            &__login {
+                width: 100%;
+                height: 40px;
+                margin: 20px 0;
+                background-color: #1140b9;
+                border-radius: 10px;
+                color: white;
+            }
+
+            &__login:hover {
+                box-shadow: 0px 0px 20px 0.1px rgba(0, 0, 0, 0.2) inset;
+            }
+
+            &__logon {
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+
     }
 </style>
