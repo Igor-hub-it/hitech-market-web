@@ -1,10 +1,8 @@
 <template>
   <div class="main-layout">
-    <v-header />
+    <v-header @click:profile="profileHandler" />
     <v-navbar />
-    <main>
-      <router-view />
-    </main>
+    <router-view />
   </div>
 </template>
 
@@ -13,8 +11,17 @@ import vHeader from '@/components/vHeader.vue'
 import vNavbar from '@/components/vNavbar.vue'
 
 export default {
+  emits: ['click:profile'],
+
   components: {
-    vHeader, vNavbar,
+    vHeader,
+    vNavbar,
+  },
+
+  methods: {
+    profileHandler() {
+      this.$emit('click:modal', 'auth')
+    }
   }
 }
 </script>

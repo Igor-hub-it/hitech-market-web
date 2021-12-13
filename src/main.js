@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './plugins/router'
 import store from './plugins/store'
 import axios from './plugins/axios'
+import VueLoading from 'vue-loading-overlay'
 import './assets/styles/null.scss'
 
 const app = createApp(App)
@@ -12,4 +13,5 @@ app.config.globalProperties.$axios = axios
 app
   .use(store)
   .use(router)
+  .use(VueLoading)
   .mount('#app')

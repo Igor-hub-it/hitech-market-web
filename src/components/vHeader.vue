@@ -6,11 +6,9 @@
       </button>
     </router-link>
     <div class="header__content">
-      <router-link :to="{ name: 'login' }">
-        <button class="header__LK">
-          <img class="header__LK-img" src="/images/profile.png" alt="" />
-        </button>
-      </router-link>
+      <button @click.stop="profileHandler" class="header__LK">
+        <img class="header__LK-img" src="/images/profile.png" alt="" />
+      </button>
       <router-link :to="{ name: 'busket' }">
         <button class="header__basket">
           <img class="header__basket-img" src="/images/basket.png" alt="" />
@@ -19,6 +17,18 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  emits: ['click:profile'],
+
+  methods: {
+    profileHandler() {
+      this.$emit('click:profile')
+    }
+  },
+}
+</script>
 
 <style lang="scss" scoped>
 .header {
