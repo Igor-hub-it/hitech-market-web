@@ -24,12 +24,6 @@ const routes = [
     meta: { layout: 'main' }
   },
   {
-    path: '/login',
-    name: 'login',
-    component: lazyView('vAuth'),
-    meta: { layout: 'empty' }
-  },
-  {
     path: '/api/:route',
     name: 'api',
     component: lazyView('vApi'),
