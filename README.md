@@ -1,19 +1,21 @@
-# rtyuio
+# Hitech Market Web
 
-## Project setup
+### Run via docker-compose
+* Install [docker](https://docs.docker.com/get-docker/) and [docker-compose](https://docs.docker.com/compose/install/#install-compose) on machine
+```bash
+docker-compose up --build -d
+```
+
+### Run locally for development
+* You must have [node](https://nodejs.org/en/download/) installed on your machine
 ```
 npm install
-```
-
-### Compiles and hot-reloads for development
-```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Build locally for production
+* You must have [node](https://nodejs.org/en/download/) installed on your machine
 ```
+npm install
 npm run build
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
