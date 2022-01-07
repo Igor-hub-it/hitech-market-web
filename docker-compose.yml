@@ -1,15 +1,11 @@
-version: '3.9'
+version: '2.4'
 services:
   app:
     build: .
     image: hitech-market/web
-    container_name: hitech-market-web
-    restart: always
-    environment:
-      - NGINX_HOST=foobar.com
-      - NGINX_PORT=80
+    container_name: hitech-market_web
     ports:
-      - "8080:80"
+      - "80:17093"
     networks:
       - hitech-market
 

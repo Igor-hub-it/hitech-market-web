@@ -26,7 +26,7 @@ export default {
     return {
       showModal: {
         auth: false,
-      }
+      },
     }
   },
 
@@ -47,7 +47,7 @@ export default {
 
     closeModal(name) {
       this.showModal[name] = false
-    }
+    },
   },
 }
 </script>
