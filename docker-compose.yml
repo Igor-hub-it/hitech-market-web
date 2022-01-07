@@ -2,12 +2,6 @@ version: '2.4'
 services:
   app:
     build: .
-    image: hitech-market/web
     container_name: hitech-market_web
     ports:
       - "80:17093"
-    networks:
-      - hitech-market
-
-networks:
-  hitech-market: null
