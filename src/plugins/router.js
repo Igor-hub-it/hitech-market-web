@@ -12,14 +12,14 @@ const routes = [
     meta: { layout: 'main' }
   },
   {
-    path: '/busket',
-    name: 'busket',
-    component: lazyView('Busket'),
+    path: '/basket',
+    name: 'basket',
+    component: lazyView('Basket'),
     meta: { layout: 'main' }
   },
   {
-    path: '/shop',
-    name: 'shop',
+    path: '/catalog/:component',
+    name: 'catalog',
     component: lazyView('ShopSample'),
     meta: { layout: 'main' }
   },
@@ -28,6 +28,18 @@ const routes = [
     name: 'api',
     component: lazyView('vApi'),
     meta: { layout: 'empty' }
+  },
+  {
+    path: '/component',
+    name: 'component',
+    component: lazyView('Component'),
+    meta: {layout: 'main'}
+  },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: lazyView('Dashboard'),
+    meta: {layout: 'empty'}
   },
 ]
 

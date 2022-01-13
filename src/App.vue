@@ -22,11 +22,22 @@ export default {
     vAuth,
   },
 
+  created() {
+    this.loadComponents()
+  },
+
+  provide() {
+    return {
+      components: this.components
+    }
+  },
+
   data() {
     return {
       showModal: {
         auth: false,
       },
+      components: null,
     }
   },
 
@@ -37,6 +48,13 @@ export default {
   },
 
   methods: {
+    async loadComponents() {
+      this.components = await this.$axios.get('/components')
+        .then((res) => res.data)
+        .catch((err) => console.warn(err))
+      console.log(this.components)
+    },
+
     updateUser() {
       // write it later
     },
@@ -56,6 +74,8 @@ export default {
 #app {
   width: 100%;
   height: 100%;
+  font-family: "PT Sans", Open Sans;
+  @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;700&family=PT+Sans:wght@400;700&display=swap');
 }
 
 .modal {

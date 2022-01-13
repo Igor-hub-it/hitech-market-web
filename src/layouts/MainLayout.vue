@@ -1,21 +1,21 @@
 <template>
   <div class="main-layout">
     <v-header @click:profile="profileHandler" />
-    <v-navbar />
     <router-view />
+    <v-footer />
   </div>
 </template>
 
 <script>
 import vHeader from '@/components/vHeader.vue'
-import vNavbar from '@/components/vNavbar.vue'
+import vFooter from '@/components/vFooter.vue'
 
 export default {
   emits: ['click:profile'],
 
   components: {
     vHeader,
-    vNavbar,
+    vFooter
   },
 
   methods: {
@@ -27,12 +27,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.accessories {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 35px;
-  background-color: rgb(95, 95, 95);
-  color: white;
-}
 </style>
