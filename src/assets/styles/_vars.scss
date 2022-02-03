@@ -1,36 +1,18 @@
-$colors : (primary: #f6f6f6,
-  primary-lite: #fff,
-  primary-dark: #32475b,
-  secondary: #1C3062,
-  separator: #bdbdbd,
-  separator-lite: #f9f9f9,
-  grey: #afafaf,
-  green: #12e12d,
-  yellow: #eca82f,
-  orange: #fc8507,
-  orange-lite: #fff7da,
-  pink: #F92495,
-
-  green-dark: #169b28,
-  blackyblue: #2c3e50,
-  blue: #001eff,
-);
-
 :root {
-  --separator-alpha: rgba(0, 0, 0, .2);
-  --shadow-size: 0 1px 2px;
-  --separator-shadow: var(--shadow-size) var(--separator-alpha);
-
-  @each $key,
-  $value in $colors {
-    --#{$key} : #{$value};
-    --#{$key}-rgb : #{hexToRGB($value)};
-  }
-}
-
-@media screen and (max-width: 786px) {
-  * {
-    --h-navbar: var(--h-navbar-tablet);
-    --w-contact: var(--w-contact-tablet);
-  }
+  --primary: #a8a5c3;
+  --primary-dark: #817e9e;
+  --primary-lite: #b2b2b2;
+  --primary-semidark: #7b609d;
+  --hover: #f2f2f5;
+  --grey: #eeedf2;
+  --dark: #3b3a43;
+  --font-primary: #2c2c2c;
+  --font-dark: #515151;
+  --primary-font: #2c2c2c;
+  --separator: #e2e2e2;
+  --border: #b2b2b2;
+  --border-dark: #838383;
+  --hint: #acacac;
+  --red: #c72727;
+  --green: #56b460;
 }

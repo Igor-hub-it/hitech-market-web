@@ -15,7 +15,11 @@
         </button>
         <router-link :to="{ name: 'basket' }">
           <button class="supheader__basket">
-            <img class="supheader__basket-img" src="/images/basket.png" alt="" />
+            <img
+              class="supheader__basket-img"
+              src="/images/basket.png"
+              alt=""
+            />
           </button>
         </router-link>
       </div>
@@ -28,7 +32,7 @@
 </template>
 
 <script>
-import vNavbar from '@/components/vNavbar.vue'
+import vNavbar from '@/components/Navbar.vue'
 
 export default {
   components: {
@@ -48,8 +52,8 @@ export default {
       this.$emit('click:profile')
     },
     toggleNavbarHandler() {
-        this.navbarActive = !this.navbarActive
-    }
+      this.navbarActive = !this.navbarActive
+    },
   },
 }
 </script>
@@ -87,7 +91,7 @@ export default {
   }
 
   &__discriptor {
-    @media screen and (max-width: 750px){
+    @media screen and (max-width: 750px) {
       display: none;
     }
     margin-left: 20px;

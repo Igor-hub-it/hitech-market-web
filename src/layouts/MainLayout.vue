@@ -7,22 +7,22 @@
 </template>
 
 <script>
-import vHeader from '@/components/vHeader.vue'
-import vFooter from '@/components/vFooter.vue'
+import vHeader from '@/components/Header.vue'
+import vFooter from '@/components/Footer.vue'
 
 export default {
   emits: ['click:profile'],
 
   components: {
     vHeader,
-    vFooter
+    vFooter,
   },
 
   methods: {
     profileHandler() {
       this.$emit('click:modal', 'auth')
-    }
-  }
+    },
+  },
 }
 </script>
 

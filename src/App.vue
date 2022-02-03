@@ -1,49 +1,74 @@
 <template>
   <div id="app">
-    <component :is="layout" @click:modal="openModal" />
-    <v-auth
-      v-if="showModal.auth"
-      @close:modal="closeModal('auth')"
-      @update:user="updateUser"
-      class="modal"
-    ></v-auth>
+    <v-header @click:profile="openModal('auth')" />
+    <router-view />
+    <v-footer />
+
+    <transition name="fade">
+      <v-auth
+        v-if="authModal?.active"
+        @close:modal="closeModal('auth')"
+        @update:user="userByToken"
+        :message="authModal?.message"
+        class="modal"
+      />
+    </transition>
   </div>
 </template>
 
 <script>
-import EmptyLayout from '@/layouts/EmptyLayout'
-import MainLayout from '@/layouts/MainLayout'
-import vAuth from '@/components/vAuth.vue'
-import { mapMutations } from 'vuex'
+import vHeader from '@/components/Header.vue'
+import vFooter from '@/components/Footer.vue'
+import vAuth from '@/components/Auth.vue'
+import { mapMutations, mapGetters } from 'vuex'
 
 export default {
   components: {
-    EmptyLayout,
-    MainLayout,
+    vHeader,
+    vFooter,
     vAuth,
   },
 
+  provide() {
+    return {
+      axiosNotify: this.axiosNotify,
+      logout: this.logoutHandler,
+      syncUser: this.userByToken,
+    }
+  },
+
   created() {
+    this.userByToken()
     this.loadComponents()
   },
 
   data() {
     return {
-      showModal: {
-        auth: false,
-      },
       catalog: null,
     }
   },
 
   computed: {
-    layout() {
-      return (this.$route.meta.layout || 'empty') + '-layout'
+    ...mapGetters(['token', 'modal']),
+
+    userLogedIn() {
+      return this.user != null
+    },
+
+    authModal() {
+      return this.modal?.auth
     },
   },
 
   methods: {
-    ...mapMutations(['updateComponents']),
+    ...mapMutations([
+      'updateComponents',
+      'updateUser',
+      'updateToken',
+      'showModal',
+      'hideModal',
+      'updateModalMessage',
+    ]),
 
     async loadComponents() {
       const components = await this.$axios
@@ -54,16 +79,74 @@ export default {
       this.updateComponents(components)
     },
 
-    updateUser() {
-      // write it later
+    async userByToken() {
+      if (this.token == null) return
+
+      this.$axios.defaults.headers.Authorization = `${this.token}`
+
+      const user = await this.$axios
+        .get('/user')
+        .then((res) => res.data)
+        .catch(() => null)
+
+      if (user == null)
+        return this.updateModalMessage({
+          modalName: 'auth',
+          message: 'Ваша сессия истекла',
+        })
+
+      this.updateUser(user)
+    },
+
+    logoutHandler() {
+      this.$axios.defaults.headers.Authorization = null
+      this.updateUser(null)
+      this.updateToken(null)
+    },
+
+    axiosNotify(response, successMessage) {
+      let type, notify, returnValue
+      if (response === true) {
+        notify = {
+          title: 'Успех',
+          description: successMessage,
+        }
+        type = 'success'
+        returnValue = true
+      } else {
+        notify = {
+          title: 'Ошибка',
+          description: response || 'Неизвестная ошибка',
+        }
+        type = 'danger'
+        returnValue = false
+      }
+
+      const getToastOptions = (timeout, type = 'default') => ({
+        position: 'bottom-right',
+        type,
+        transition: 'bounce',
+        timeout,
+      })
+
+      this.moshaToast(notify, getToastOptions(7000, type))
+
+      return returnValue
     },
 
     openModal(name) {
-      this.showModal[name] = true
+      this.showModal(name)
     },
 
     closeModal(name) {
-      this.showModal[name] = false
+      this.hideModal(name)
+    },
+  },
+
+  watch: {
+    '$route.query.show'(modalName, oldModalName) {
+      this.closeModal(oldModalName)
+      this.openModal(modalName)
     },
   },
 }

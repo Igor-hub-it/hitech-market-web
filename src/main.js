@@ -4,6 +4,8 @@ import router from './plugins/router'
 import store from './plugins/store'
 import axios from './plugins/axios'
 import VueLoading from 'vue-loading-overlay'
+import '@/assets/styles/_vars.scss'
+import '@/assets/styles/fonts.scss'
 import './assets/styles/null.scss'
 
 const app = createApp(App)

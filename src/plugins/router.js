@@ -1,7 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-function lazyView(view) {
-  return () => import(/* webpackChunkName: "[request]" */ `@/views/${view}.vue`)
+function lazyView(viewName) {
+  return () => import(/* webpackChunkName: "[request]" */ `@/views/${viewName}.vue`)
+}
+function lazyLayout(layoutName) {
+  return () => import(/* webpackChunkName: "[request]" */ `@/layouts/${layoutName}.vue`)
 }
 
 const routes = [
@@ -9,37 +12,43 @@ const routes = [
     path: '/',
     name: 'home',
     component: lazyView('Home'),
-    meta: { layout: 'main' }
   },
   {
     path: '/basket',
     name: 'basket',
     component: lazyView('Basket'),
-    meta: { layout: 'main' }
   },
   {
     path: '/catalog/:component',
     name: 'catalog',
     component: lazyView('ShopSample'),
-    meta: { layout: 'main' }
-  },
-  {
-    path: '/api/:route',
-    name: 'api',
-    component: lazyView('vApi'),
-    meta: { layout: 'empty' }
   },
   {
     path: '/component',
     name: 'component',
     component: lazyView('Component'),
-    meta: {layout: 'main'}
   },
   {
     path: '/dashboard',
     name: 'dashboard',
     component: lazyView('Dashboard'),
-    meta: {layout: 'empty'}
+  },
+  {
+    path: '/profile',
+    component: lazyLayout('Profile'),
+    redirect: { name: 'profile' },
+    children: [
+      {
+        path: '',
+        name: 'profile',
+        component: lazyView('Profile'),
+      },
+      {
+        path: 'edit',
+        name: 'profile-edit',
+        component: lazyView('ProfileEdit'),
+      }
+    ]
   },
 ]
 

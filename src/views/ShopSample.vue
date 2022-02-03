@@ -61,7 +61,6 @@ export default {
         .get(`/components/${component}`)
         .then((res) => res.data)
         .catch((err) => console.warn(err))
-      console.log(this.stock)
     },
 
     pushBasketHandler(item) {
