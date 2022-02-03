@@ -69,11 +69,17 @@ import FormButton from '@/components/FormButton.vue'
 import vInput from '@/components/vInput.vue'
 import { mapActions } from 'vuex'
 import useVuelidate from '@vuelidate/core'
-import { email, required, minLength, maxLength, sameAs } from '@vuelidate/validators'
+import {
+  email,
+  required,
+  minLength,
+  maxLength,
+  sameAs,
+} from '@vuelidate/validators'
 
 export default {
   emits: ['close:modal', 'update:user'],
-  
+
   components: {
     FormButton,
     vInput,
@@ -92,8 +98,8 @@ export default {
           title: 'Регистрация',
           submit: 'Зарегистрироваться',
           switch: 'У меня уже есть аккаунт',
-        }
-      }
+        },
+      },
     }
   },
 
@@ -132,10 +138,14 @@ export default {
       let fields = [this.v$.email, this.v$.password]
       if (this.isRegistration)
         fields = [...fields, this.v$.name, this.v$.passwordRepeat]
-      const emptyExists = fields.reduce((emptyExists, field) => emptyExists || Boolean(field?.required?.$invalid), false)
+      const emptyExists = fields.reduce(
+        (emptyExists, field) =>
+          emptyExists || Boolean(field?.required?.$invalid),
+        false
+      )
 
       return emptyExists
-    }
+    },
   },
 
   methods: {
@@ -162,32 +172,37 @@ export default {
       const current = types.indexOf(this.authType)
 
       this.authError = ''
-      this.authType = types[(current + 1) % types.length] 
+      this.authType = types[(current + 1) % types.length]
     },
 
     async submitHandler(e) {
       if (this.emptyFieldExists)
-        return this.authError = 'Сначала заполните обязательные поля'
+        return (this.authError = 'Сначала заполните обязательные поля')
 
-      let data, url
+      let data,
+        url = '/user'
       if (this.isRegistration) {
         data = {
-          username: this.name,
+          name: this.name,
           email: this.email,
           phone: this.phone,
           password: this.password,
         }
-        url = '/register'
+        url += '/registration'
       } else {
         data = {
-          username: this.email,
+          email: this.email,
           password: this.password,
         }
-        url = '/login'
+        url += '/login'
       }
 
-      const loader = this.$loading.show({ container: e.target, canCancel: false })
-      const response = await this.$axios.post(url, data)
+      const loader = this.$loading.show({
+        container: e.target,
+        canCancel: false,
+      })
+      const response = await this.$axios
+        .post(url, data)
         .then((res) => res.data)
         .catch((err) => err?.response?.status)
 
@@ -224,9 +239,8 @@ export default {
 
   watch: {
     emptyFieldExists(value) {
-      if (value === false)
-        this.authError = ''
-    }
+      if (value === false) this.authError = ''
+    },
   },
 }
 </script>

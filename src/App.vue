@@ -14,6 +14,7 @@
 import EmptyLayout from '@/layouts/EmptyLayout'
 import MainLayout from '@/layouts/MainLayout'
 import vAuth from '@/components/vAuth.vue'
+import { mapMutations } from 'vuex'
 
 export default {
   components: {
@@ -26,18 +27,12 @@ export default {
     this.loadComponents()
   },
 
-  provide() {
-    return {
-      components: this.components
-    }
-  },
-
   data() {
     return {
       showModal: {
         auth: false,
       },
-      components: null,
+      catalog: null,
     }
   },
 
@@ -48,11 +43,15 @@ export default {
   },
 
   methods: {
+    ...mapMutations(['updateComponents']),
+
     async loadComponents() {
-      this.components = await this.$axios.get('/components')
+      const components = await this.$axios
+        .get('/catalog')
         .then((res) => res.data)
         .catch((err) => console.warn(err))
-      console.log(this.components)
+
+      this.updateComponents(components)
     },
 
     updateUser() {
@@ -74,7 +73,7 @@ export default {
 #app {
   width: 100%;
   height: 100%;
-  font-family: "PT Sans", Open Sans;
+  font-family: 'PT Sans', Open Sans;
   @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;700&family=PT+Sans:wght@400;700&display=swap');
 }
 

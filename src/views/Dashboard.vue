@@ -25,36 +25,48 @@
                   <p @click.stop="refreshTable(modelName)">refresh</p>
                   <p @click.stop="saveTable(modelName)">apply</p>
                 </div>
-                <div class="table__mask">
-                  <p v-for="field in fields[modelName]" :key="field">
-                    {{ field }}
-                  </p>
+                <div class="table__mask table__item">
+                  <div class="table__item-wrapper">
+                    <p
+                      v-for="field in fields[modelName]"
+                      :key="field"
+                      class="table__field"
+                    >
+                      {{ field }}
+                    </p>
+                  </div>
                 </div>
                 <div
                   class="table__item"
                   v-for="(entry, idx) in created[modelName]"
                   :key="idx"
                 >
-                  <span
-                    v-for="(value, field) in entry"
-                    :key="`${idx}-${field}-${value}`"
-                  >
-                    <p v-if="field === 'id'">{{ value }}</p>
-                    <input
-                      v-else
+                  <div class="table__item-wrapper">
+                    <span
+                      v-for="(value, field) in entry"
+                      :key="`${idx}-${field}-${value}`"
                       class="table__field"
-                      @change="
-                        changeHandler(
-                          modelName,
-                          idx,
-                          field,
-                          $event.target.value,
-                          true
-                        )
-                      "
-                      :value="changedValue(modelName, idx, field, value, true)"
-                    />
-                  </span>
+                    >
+                      <p v-if="field === 'id'">
+                        {{ value }}
+                      </p>
+                      <input
+                        v-else
+                        @change="
+                          changeHandler(
+                            modelName,
+                            idx,
+                            field,
+                            $event.target.value,
+                            true
+                          )
+                        "
+                        :value="
+                          changedValue(modelName, idx, field, value, true)
+                        "
+                      />
+                    </span>
+                  </div>
                 </div>
                 <div
                   class="table__item"
@@ -65,7 +77,7 @@
                     v-for="(value, field) in entry"
                     :key="`${idx}-${field}-${value}`"
                   >
-                    <p v-if="field === 'id'">{{ value }}</p>
+                    <p v-if="field === '_id'">{{ value }}</p>
                     <input
                       v-else
                       class="table__field"
@@ -91,27 +103,25 @@
 </template>
 
 <script>
-
 export default {
   async created() {
-    this.fields = await this.$axios.get('/components')
-      .then((res) => { console.log(res); return res.data })
+    this.fields = await this.$axios
+      .get('/models')
+      .then((res) => res.data)
       .catch((e) => console.warn('Models ERROR:', e))
-
     if (this.fields == null) return
 
     const modelNames = Object.keys(this.fields)
     modelNames.every(async (name) => {
       this.created[name] = []
       this.changed[name] = {}
-      this.models[name] = await this.$axios.get(`/${name}`)
-        .then(({ data }) => data)
+      this.models[name] = await this.$axios
+        .get(`models/${name}`)
+        .then((res) => res.data)
         .catch((e) => console.warn(e))
     })
-
-    console.log(this.created, this.models)
   },
-  
+
   data() {
     return {
       fields: {},
@@ -123,32 +133,31 @@ export default {
 
   methods: {
     toggleModel(modelName) {
-      // e.target.classList.toggle('active')
-      this.$refs[modelName].classList.toggle('active')
+      this.$refs[modelName]?.classList.toggle('active')
     },
 
-    changeHandler(modelName, idx, key, value, isNew=false) {
-      const store = (isNew) ? this.created : this.changed
+    changeHandler(modelName, idx, key, value, isNew = false) {
+      const store = isNew ? this.created : this.changed
 
-      if (store[modelName][idx] == null)
-        store[modelName][idx] = {}
+      if (store[modelName][idx] == null) store[modelName][idx] = {}
 
       store[modelName][idx][key] = value
     },
 
-    changedValue(modelName, idx, key, value, isNew=false) {
-      const store = (isNew) ? this.created : this.changed
-      
+    changedValue(modelName, idx, key, value, isNew = false) {
+      const store = isNew ? this.created : this.changed
+
       try {
         value = store[modelName][idx][key] || value
-      }
-      finally {
+      } finally {
         return value
       }
     },
 
     addItem(modelName) {
-      const entry = Object.fromEntries(this.fields[modelName].map((field) => [field, '']))
+      const entry = Object.fromEntries(
+        this.fields[modelName].map((field) => [field, ''])
+      )
       // const lastInd = this.models[modelName].length - 1
       // entry.id = this.models[modelName][lastInd].id + 1
       // this.models[modelName].unshift(entry)
@@ -156,35 +165,36 @@ export default {
       // this.models.splice(0, 0, )
     },
 
-    popItem(modelName) {
+    popItem(modelName) {},
 
-    },
-    
     async refreshTable(modelName) {
-      this.models[modelName] = await this.$axios.get(`/${modelName}`)
+      this.models[modelName] = await this.$axios
+        .get(`models/${modelName}`)
         .then(({ data }) => data)
-        .catch((e) => console.log(e))
+        .catch((e) => console.warn(e))
     },
-    
-    saveTable(modelName) {
-      console.log('created', this.created, '\nchanged', this.changed)
+
+    async saveTable(modelName) {
       const changedEntries = Object.entries(this.changed[modelName])
       changedEntries.map(([idx, entry]) => {
         const id = this.models[modelName][idx].id
-        this.$axios.post(`/${modelName}/${id}`, entry)
-        this.models[modelName][idx] = Object.assign(this.models[modelName][idx], entry)
+        this.$axios.put(`models/${modelName}/${id}`, entry)
+        this.models[modelName][idx] = Object.assign(
+          this.models[modelName][idx],
+          entry
+        )
       })
       this.changed[modelName] = {}
 
       const createdEntries = Object.entries(this.created[modelName])
       createdEntries.map(([_, entry]) => {
-        this.$axios.put(`/${modelName}`, entry).then(({ data }) => {
-          this.models[modelName].push(data)
-        })
+        this.$axios
+          .post(`models/${modelName}`, entry)
+          .then(({ data }) => this.models[modelName].push(data))
       })
       this.created[modelName] = []
     },
-  }
+  },
 }
 </script>
 
@@ -216,7 +226,6 @@ export default {
     &::after {
       transform: rotate(45deg);
     }
-    // transform: rotate(180deg);
   }
 
   &__header {
@@ -252,7 +261,7 @@ export default {
 
     &::before,
     &::after {
-      content: "";
+      content: '';
       margin: -2px;
       width: 70%;
       height: 1px;
@@ -281,6 +290,8 @@ export default {
 
   &__toolbar {
     padding: 10px 15px;
+    position: sticky;
+    left: 0;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -293,17 +304,30 @@ export default {
     box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.16);
   }
 
-  &__mask,
   &__item {
     padding: 7px 15px;
-    display: flex;
-    justify-content: space-between;
     width: 100%;
+
+    &-wrapper {
+      display: flex;
+      justify-content: space-between;
+      grid-gap: 0 20px;
+      width: auto;
+    }
   }
 
-  &__mask,
   &__item:nth-child(even) {
     background-color: #ededed;
+  }
+
+  &__field {
+    flex: 0 0 150px;
+
+    input {
+      width: 100%;
+      border: 1px solid #f1f2f6;
+      box-shadow: 0 0 1px rgba(0, 0, 0, 0.16);
+    }
   }
 }
 </style>

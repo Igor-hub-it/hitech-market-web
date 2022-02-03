@@ -4,6 +4,7 @@ import createPersistedState from "vuex-persistedstate";
 export default createStore({
   state: {
     basket: [],
+    components: null,
   },
   mutations: {
     pushBasket(state, newItem) {
@@ -12,11 +13,16 @@ export default createStore({
     clearBasket(state) {
       state.basket = []
     },
+
+    updateComponents(state, components) {
+      state.components = components
+    },
   },
   actions: {
   },
   getters: {
     basket: (state) => state.basket,
+    components: (state) => state.components,
   },
   modules: {
   },

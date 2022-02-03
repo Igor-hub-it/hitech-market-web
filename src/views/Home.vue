@@ -1,9 +1,13 @@
 <template>
   <div class="home">
     <div class="components">
-      <router-link v-for="({ name, image }) in components" :key="name" :to="{ name: 'catalog', params: { component: name } }">
+      <router-link
+        v-for="({ name, image }, key) in components"
+        :key="name"
+        :to="{ name: 'catalog', params: { component: key } }"
+      >
         <button class="components__CPU component">
-          <img :src="image" :alt="name" />
+          <img :src="`${staticUrl}/${image}`" :alt="name" />
           <p class="component__CPU">{{ name }}</p>
         </button>
       </router-link>
@@ -12,8 +16,18 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
-  inject: ['components'],
+  setup() {
+    return {
+      staticUrl: process.env.VUE_APP_STATIC_URL,
+    }
+  },
+
+  computed: {
+    ...mapGetters(['components']),
+  },
 }
 </script>
 
