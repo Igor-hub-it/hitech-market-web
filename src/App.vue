@@ -79,23 +79,48 @@ export default {
       this.updateComponents(components)
     },
 
-    async userByToken() {
-      if (this.token == null) return
-
-      this.$axios.defaults.headers.Authorization = `${this.token}`
-
-      const user = await this.$axios
+    async getUser() {
+      return await this.$axios
         .get('/user')
         .then((res) => res.data)
         .catch(() => null)
+    },
 
-      if (user == null)
-        return this.updateModalMessage({
-          modalName: 'auth',
-          message: 'Ваша сессия истекла',
-        })
+    setupToken() {
+      this.$axios.defaults.headers.Authorization = `${this.token}`
+    },
 
-      this.updateUser(user)
+    async userByToken() {
+      if (this.token == null) return
+
+      this.setupToken()
+
+      let user = await this.getUser()
+
+      console.log(user)
+
+      if (user) {
+        return this.updateUser(user)
+      }
+
+      const token = this.$axios
+        .post('/user/refresh')
+        .then((res) => res.data)
+        .catch(() => null)
+
+      this.updateToken(token)
+      this.setupToken()
+
+      user = await this.getUser()
+
+      if (user) {
+        return this.updateUser(user)
+      }
+
+      this.updateModalMessage({
+        modalName: 'auth',
+        message: 'Ваша сессия истекла',
+      })
     },
 
     logoutHandler() {

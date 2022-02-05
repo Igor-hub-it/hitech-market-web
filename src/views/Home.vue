@@ -4,7 +4,7 @@
       <router-link
         v-for="({ name, image }, key) in components"
         :key="name"
-        :to="{ name: 'catalog', params: { component: key } }"
+        :to="{ name: 'components-list', params: { componentName: key } }"
       >
         <button class="components__CPU component">
           <img :src="`${staticUrl}/${image}`" :alt="name" />

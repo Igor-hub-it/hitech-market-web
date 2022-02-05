@@ -305,7 +305,10 @@ export default {
       })
       const response = await this.$axios
         .post(url, data, options)
-        .then((res) => ({ message: res.data, status: res.status }))
+        .then((res) => {
+          console.log(res)
+          return { message: res.data, status: res.status }
+        })
         .catch((err) => ({
           message: err?.response?.data.detail,
           status: err?.response?.status,

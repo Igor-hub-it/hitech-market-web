@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from 'axios'
 
 const config = {
   baseURL: process.env.VUE_APP_API_URL || process.env.baseURL || process.env.apiUrl || "",

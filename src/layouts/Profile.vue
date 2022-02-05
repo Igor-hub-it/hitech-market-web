@@ -87,14 +87,6 @@ export default {
   computed: {
     ...mapGetters(['user', 'token']),
 
-    notificationIcon() {
-      return '/images/danger.svg'
-    },
-
-    profileId() {
-      return this.$route.params.id
-    },
-
     userLogo() {
       return (
         this.displayImage ||
@@ -170,7 +162,7 @@ export default {
     },
 
     redirectHandler() {
-      if (this.user == null) this.$router.push({ name: 'glance' })
+      if (this.user == null) this.$router.push({ name: 'home' })
     },
 
     logoutHandler() {

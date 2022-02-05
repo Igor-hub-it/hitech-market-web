@@ -5,7 +5,7 @@
         v-for="({ name }, key) in components"
         :key="name"
         class="accessories__CPU acsr"
-        :to="{ name: 'catalog', params: { component: key } }"
+        :to="{ name: 'components-list', params: { componentName: key } }"
         >{{ name }}</router-link
       >
     </div>

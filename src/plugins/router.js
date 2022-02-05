@@ -19,15 +19,23 @@ const routes = [
     component: lazyView('Basket'),
   },
   {
-    path: '/catalog/:component',
-    name: 'catalog',
-    component: lazyView('ShopSample'),
+    path: '/catalog/:componentName',
+    component: lazyLayout('Empty'),
+    redirect: { name: 'components-list' },
+    children: [
+      {
+        path: '',
+        name: 'components-list',
+        component: lazyView('ComponentsList'),
+      },
+      {
+        path: ':componentId',
+        name: 'component-details',
+        component: lazyView('ComponentDetails'),
+      },
+    ]
   },
-  {
-    path: '/component',
-    name: 'component',
-    component: lazyView('Component'),
-  },
+
   {
     path: '/dashboard',
     name: 'dashboard',
